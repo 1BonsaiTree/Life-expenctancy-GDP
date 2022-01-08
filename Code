@@ -1,0 +1,185 @@
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+import numpy as np
+import matplotlib.pyplot as plt
+import sklearn
+import seaborn as sns
+
+data = pd.read_csv("all_data.csv")
+print(data.head(5))
+
+countries = np.unique(data.Country)
+print(countries)
+
+years = np.unique(data.Year)
+
+chile = data[data.Country == "Chile"]
+print(chile)
+
+china = data[data.Country == "China"]
+germany = data[data.Country == "Germany"]
+mexico = data[data.Country == "Mexico"]
+USA = data[data.Country == "United States of America"]
+zimbabwe = data[data.Country == "Zimbabwe"]
+
+print(USA)
+
+#Get max for GDP and life expectancy, and who and when it happened
+print(data["Life expectancy at birth (years)"].max())
+print(data["GDP"].max())
+
+avg_chile_life = round(np.average(chile["Life expectancy at birth (years)"]),2)
+print(avg_chile_life)
+avg_chile_gdp = round(np.average(chile["GDP"]),2)
+print(avg_chile_gdp)
+
+avg_china_life = round(np.average(china["Life expectancy at birth (years)"]),2)
+avg_china_gdp = round(np.average(china["GDP"]),2)
+print(avg_china_life)
+print(avg_china_gdp)
+
+avg_germany_life = round(np.average(germany["Life expectancy at birth (years)"]),2)
+avg_germany_gdp = round(np.average(germany["GDP"]),2)
+print(avg_germany_life)
+print(avg_germany_gdp)
+
+avg_mexico_life = round(np.average(mexico["Life expectancy at birth (years)"]),2)
+avg_mexico_gdp = round(np.average(mexico["GDP"]),2)
+print(avg_mexico_life)
+print(avg_mexico_gdp)
+
+avg_usa_life = round(np.average(USA["Life expectancy at birth (years)"]),2)
+avg_usa_gdp = round(np.average(USA["GDP"]),2)
+print(avg_usa_life)
+print(avg_usa_gdp)
+
+avg_zimbabwe_life = round(np.average(zimbabwe["Life expectancy at birth (years)"]),2)
+avg_zimbabwe_gdp = round(np.average(zimbabwe["GDP"]),2)
+print(avg_zimbabwe_life)
+print(avg_zimbabwe_gdp)
+
+print(data[["Life expectancy at birth (years)", "GDP"]])
+
+#normalise and standardise the data so that GDP can be compared to life expectancy
+
+scaler = StandardScaler()
+norm_data = scaler.fit_transform(data[["Life expectancy at birth (years)", "GDP"]])
+
+norm_data = pd.DataFrame(norm_data)
+data = pd.DataFrame(data)
+
+norm_data['Country'] = data.Country
+norm_data['Year'] = data.Year
+norm_data.columns = ['Life expectancy at birth (years)', 'GDP', 'Country','Year']
+norm_data = norm_data[['Country','Year', 'Life expectancy at birth (years)', 'GDP']]
+print(norm_data)
+
+
+#line chart to compare them for each country
+fig,ax = plt.subplots()
+
+# make a plot
+ax.plot(norm_data.Year[norm_data.Country == 'Chile'], data.GDP[data.Country == 'Chile'], color="red")
+ax.set_xlabel("year")
+ax.set_ylabel("GDP",color="red")
+
+
+ax2=ax.twinx()
+
+# make a plot with different y-axis using second axis object
+ax2.plot(norm_data.Year[norm_data.Country == 'Chile'], data["Life expectancy at birth (years)"][data.Country == 'Chile'], color="blue")
+ax2.set_ylabel("Life expectancy",color="blue")
+ax2.set_title("Chile")
+plt.show()
+
+
+#line chart to compare them for each country
+fig,ax = plt.subplots()
+
+# make a plot
+ax.plot(norm_data.Year[norm_data.Country == 'China'], data.GDP[data.Country == 'China'], color="red")
+ax.set_xlabel("year")
+ax.set_ylabel("GDP",color="red")
+
+
+ax2=ax.twinx()
+
+# make a plot with different y-axis using second axis object
+ax2.plot(norm_data.Year[norm_data.Country == 'China'], data["Life expectancy at birth (years)"][data.Country == 'China'], color="blue")
+ax2.set_ylabel("Life expectancy",color="blue")
+ax2.set_title("China")
+plt.show()
+
+
+#line chart to compare them for each country
+fig,ax = plt.subplots()
+
+# make a plot
+ax.plot(norm_data.Year[norm_data.Country == 'Germany'], data.GDP[data.Country == 'Germany'], color="red")
+ax.set_xlabel("year")
+ax.set_ylabel("GDP",color="red")
+
+
+ax2=ax.twinx()
+
+# make a plot with different y-axis using second axis object
+ax2.plot(norm_data.Year[norm_data.Country == 'Germany'], data["Life expectancy at birth (years)"][data.Country == 'Germany'], color="blue")
+ax2.set_ylabel("Life expectancy",color="blue")
+ax2.set_title("Germany")
+plt.show()
+
+
+#line chart to compare them for each country
+fig,ax = plt.subplots()
+
+# make a plot
+ax.plot(norm_data.Year[norm_data.Country == 'Mexico'], data.GDP[data.Country == 'Mexico'], color="red")
+ax.set_xlabel("year")
+ax.set_ylabel("GDP",color="red")
+
+
+ax2=ax.twinx()
+
+# make a plot with different y-axis using second axis object
+ax2.plot(norm_data.Year[norm_data.Country == 'Mexico'], data["Life expectancy at birth (years)"][data.Country == 'Mexico'], color="blue")
+ax2.set_ylabel("Life expectancy",color="blue")
+ax2.set_title("Mexico")
+plt.show()
+
+
+#line chart to compare them for each country
+fig,ax = plt.subplots()
+
+# make a plot
+ax.plot(norm_data.Year[norm_data.Country == 'United States of America'], data.GDP[data.Country == 'United States of America'], color="red")
+ax.set_xlabel("year")
+ax.set_ylabel("GDP",color="red")
+
+
+ax2=ax.twinx()
+
+# make a plot with different y-axis using second axis object
+ax2.plot(norm_data.Year[norm_data.Country == 'United States of America'], data["Life expectancy at birth (years)"][data.Country == 'United States of America'], color="blue")
+ax2.set_ylabel("Life expectancy",color="blue")
+ax2.set_title("United States of America")
+plt.show()
+
+
+#line chart to compare them for each country
+fig,ax = plt.subplots()
+
+# make a plot
+ax.plot(norm_data.Year[norm_data.Country == 'Zimbabwe'], data.GDP[data.Country == 'Zimbabwe'], color="red")
+ax.set_xlabel("year")
+ax.set_ylabel("GDP",color="red")
+
+
+ax2=ax.twinx()
+
+# make a plot with different y-axis using second axis object
+ax2.plot(norm_data.Year[norm_data.Country == 'Zimbabwe'], data["Life expectancy at birth (years)"][data.Country == 'Zimbabwe'], color="blue")
+ax2.set_ylabel("Life expectancy",color="blue")
+ax2.set_title("Zimbabwe")
+plt.show()
+
+#Correlation between gdp and life expectancy 
